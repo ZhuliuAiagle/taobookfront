@@ -1,9 +1,10 @@
 <template>
-  <div class="login">
+  <div class="login" id="lg" >
     <el-container>
         <el-header><el-row>淘书网 - 登录</el-row></el-header>
         <el-main>
-            <div class="login-block">
+            <!-- login block -->
+            <div class="login-block" v-if="mode==1">
                 <div style="font-size: 50px;">
                 <i class="el-icon-s-goods"></i>
                 </div>
@@ -19,12 +20,52 @@
                     </el-row>
                     <el-row>
                         <el-button type="primary" round @click="login">登录</el-button>
-                        <el-button round>我要注册</el-button>
+                        <el-button round  @click="mode=2;">我要注册</el-button>
                     </el-row>
                 </div>
             </div>
-            <div class="fulfill">
-
+            <!-- register block -->
+            <div class="register-block" v-if="mode==2">
+                <div style="font-size: 50px;">
+                <i class="el-icon-s-custom"></i>
+                </div>
+                <div style="font-size:20px; ">
+                    欢迎加入淘书网
+                </div>
+                <div class = "login-input">
+                    <el-row>
+                        <el-input placeholder="请选择一个账号(6位以上字母数字)" v-model="usr_reg"></el-input>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="请输入密码(6位以上)" show-password v-model="pas_reg"></el-input>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="请确认密码" show-password v-model="pas_confirm"></el-input>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="请选择一个昵称" v-model="nickname"></el-input>
+                    </el-row>
+                    <el-row>
+                        <el-select v-model="sex" placeholder="请选择你的性别">
+                            <el-option label="男" value="male"></el-option>
+                            <el-option label="女" value="female"></el-option>
+                            <el-option label="保密" value="secret"></el-option>
+                        </el-select>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="手机（必填）" v-model="phone"></el-input>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="邮箱（必填）" v-model="email"></el-input>
+                    </el-row>
+                    <el-row>
+                        <el-date-picker placeholder="生日" v-model="birthday" style="width:260px;"></el-date-picker>
+                    </el-row>
+                    <el-row>
+                        <el-button type="primary" round @click="register">注册并登录</el-button>
+                        <el-button round @click="mode=1;">我有账号</el-button>
+                    </el-row>
+                </div>
             </div>
         </el-main>
     </el-container>
@@ -32,23 +73,83 @@
 </template>
 
 <script>
+
 import axios from 'axios';
+import { escape } from 'querystring';
+import { type } from 'os';
 
 export default {
-    name: 'home',
+    name: 'login',
     data(){
         return{
             username: "",
-            password: ""
+            password: "",
+            mode: 1, // mode 判断当前处于登录模式还是注册模式
+            usr_reg:"",
+            nickname:"",
+            pas_reg:"",
+            pas_confirm:"",
+            sex:"",
+            birthday:null,
+            phone:"",
+            email:""
         }
     },
     methods:{
         login:function(){
             var url = this.$store.state.server
             var that = this
-            axios.get(url + "/login").then(function(response){
-
+            axios.post(url + "/login", {
+                username: that.username,
+                password: that.password
+            }).then(function(response){
+                if(response.data == "SUCCESS"){
+                    alert("登录成功")
+                    that.$router.push({path:"/home"});
+                }else{
+                    alert("用户名或密码错误！");
+                }
             })
+        },
+        dateToString:function(d){
+            var month = '' + (d.getMonth() + 1);
+            var day = '' + d.getDate();
+            var year = d.getFullYear();
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+            return [year, month, day].join('-');
+        },
+        register:function(){
+            var url = this.$store.state.server
+            var that = this
+            var sexy = 0
+            console.log(that.birthday)
+            console.log(typeof(that.birthday))
+            console.log(this.dateToString(that.birthday))
+            var bir = this.dateToString(that.birthday)
+            if(that.sex == "male") sexy = 1
+            else if(that.sex == "female") sexy = 0
+            else sexy = 0
+            if(that.pas_reg != that.pas_confirm) alert("两次密码不一致")
+            else{
+                axios.post(url + "/register",{
+                    username: that.usr_reg,
+                    role:1,
+                    nickname: that.nickname,
+                    password: that.pas_reg,
+                    sex:sexy,
+                    birthday: bir,
+                    phone: that.phone,
+                    email: that.email
+                }).then(function(response){
+                    if(response.data == "SUCCESS"){
+                        alert("注册成功，已经为您进行自动登录")
+                        that.$router.push({path:"/home"})
+                    }else{
+                        alert("注册失败")
+                    }
+                })
+            }
         }
     }
 }
@@ -57,9 +158,15 @@ export default {
 
 
 <style>
-.fulfill{
-    height: 100%;
-    height: 346px;
+.register-block{
+    background-color: #DCDFE6;
+    margin-top:40px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    align-self: center;
 }
 .login-block{
     background-color: #DCDFE6;
@@ -99,8 +206,10 @@ export default {
     line-height: 60px;
 }
 .login{
+    height:100%;
     background-image: url("../../assets/login_bg.jpg");
     background-repeat:repeat-y;
+    background-size:cover;
 }
 </style>
 
