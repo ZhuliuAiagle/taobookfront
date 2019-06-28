@@ -6,9 +6,9 @@
                 <el-aside width="auto" ref="asideLine">
                     <el-menu  :default-active="activeIndex" mode="vertical" @select="handleSelect" :collapse="false">
                         <el-menu-item index="4"><i class="el-icon-platform-eleme"></i><span>发现</span></el-menu-item>
-                        <el-menu-item index="5"><i class="el-icon-platform-eleme"></i><span>我发布的商品</span></el-menu-item>
-                        <el-menu-item index="6"><i class="el-icon-platform-eleme"></i><span>商品分类检索</span></el-menu-item>
-                        <el-menu-item index="7"><i class="el-icon-platform-eleme"></i><span>求购信息浏览</span></el-menu-item>
+                        <el-menu-item index="5"><i class="el-icon-platform-eleme"></i><span>发布新商品</span></el-menu-item>
+                        <el-menu-item index="6"><i class="el-icon-platform-eleme"></i><span>分类检索</span></el-menu-item>
+                        <el-menu-item index="7"><i class="el-icon-platform-eleme"></i><span>求购</span></el-menu-item>
                         <el-menu-item index="8"><i class="el-icon-platform-eleme"></i><span>个人中心</span></el-menu-item>
                     </el-menu>
                 </el-aside>
@@ -74,7 +74,9 @@ export default {
         this.$refs.mainLine.$el.style.height = clientHeight -60 +'px';
       },
       handleSelect:function(index, indexPath){
-        if(index == '4') alert('sb')
+        if(index == '4') this.$router.push('/index/frontpage')
+        else if(index == '5') this.$router.push('/index/newitem')
+        else if(index == '6') this.$router.push('/index/search')
       }
     },
   }

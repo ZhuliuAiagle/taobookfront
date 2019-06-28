@@ -35,7 +35,9 @@ export default new Router({
       component: () => import('./views/Index.vue'),
       children:[
         {path:"log", component: () => import('./views/login/Login.vue')},
-        {path:"frontpage", component: () => import('./views/frontPage/frontPage.vue')}
+        {path:"frontpage", component: () => import('./views/frontPage/frontPage.vue')},
+        {path:"newitem", component: () => import('./views/MyItem/NewItem.vue')},
+        {path:"search", component: () => import('./views/Search/Search.vue')}
       ]
     }
   ]
