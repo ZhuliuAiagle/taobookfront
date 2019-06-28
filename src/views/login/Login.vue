@@ -22,6 +22,7 @@
                         <el-button type="primary" round @click="login">登录</el-button>
                         <el-button round  @click="mode=2;">我要注册</el-button>
                     </el-row>
+                    <el-link href="https://element.eleme.io" target="_blank" type="primary">忘记密码？</el-link>
                 </div>
             </div>
             <!-- register block -->
@@ -105,7 +106,7 @@ export default {
             }).then(function(response){
                 if(response.data == "SUCCESS"){
                     alert("登录成功")
-                    that.$router.push({path:"/home"});
+                    that.$router.push({path:"/index"});
                 }else{
                     alert("用户名或密码错误！");
                 }
@@ -144,7 +145,7 @@ export default {
                 }).then(function(response){
                     if(response.data == "SUCCESS"){
                         alert("注册成功，已经为您进行自动登录")
-                        that.$router.push({path:"/home"})
+                        that.$router.push({path:"/index"})
                     }else{
                         alert("注册失败")
                     }
@@ -189,7 +190,6 @@ export default {
     color: #fff;
     text-align: left;
     line-height: 60px;
-    z-index: 999;
     font-size: 20px;
 }
 .el-main {
@@ -197,8 +197,8 @@ export default {
     text-align: center;
     line-height: 60px;
     height: 100%;
+    background-color:transparent;
 }
-
 .el-footer {
     background-color: #000;
     color: #fff;
