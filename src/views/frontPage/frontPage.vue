@@ -8,7 +8,8 @@
             </el-carousel-item>
         </el-carousel>
         <br/>
-        <item-short v-for="item in result" :key="item.id" :name="item.name" :clazz="item.clazz" :price="item.price"></item-short>
+        <item-short v-for="item in result" :key="item.id" :name="item.name" :clazz="item.clazz" :price="item.price" :detail="new Array(item)"></item-short>
+
     </div>
 </template>
 
@@ -17,11 +18,13 @@
 
 <script>
 import itemShort from '../../components/itemShort/itemShort.vue'
+import TableComponent from '../../components/tableComponent/TableComponent.vue'
 
 export default {
     name: 'frontPage',
     components:{
-        itemShort
+        itemShort,
+        TableComponent
     },
     mounted(){
         var a = {

@@ -6,6 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     server: "http://localhost:9999",
+    user:"nm00001",
+    account:["ac00001"],
     clazzes:[{
       value: "艺术",
       label: "艺术"

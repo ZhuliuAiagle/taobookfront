@@ -32,7 +32,7 @@
             </el-table-column>
         </el-table>
         <el-divider v-if="searchFinish"></el-divider>
-        <item-short v-for="item in result" :key="item.id" :name="item.name" :clazz="item.clazz" :price="item.price"></item-short>
+        <item-short v-for="item in result" :key="item.id" :name="item.name" :clazz="item.clazz" :price="item.price" :detail="new Array(item)"></item-short>
     </div>
 </template>
 

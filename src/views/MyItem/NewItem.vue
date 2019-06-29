@@ -80,7 +80,7 @@ export default {
         //发布书籍
         onSubmit:function(){
             var a = {
-                user_id:'nm00001',
+                user_id: this.$store.state.user,
                 req_id: this.newItemForm.reqId,
                 itemname:this.newItemForm.itemName,
                 clazz:this.newItemForm.clazz,
