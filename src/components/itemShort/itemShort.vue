@@ -1,31 +1,26 @@
 <template>
     <div class = "item-short">
-        <el-card :body-style="{ padding: '0px' }">
+        <el-card :body-style="{ padding: '0px', width: '332px'}" class="item-card" :style="cardStyle">
             <el-row>
-                <el-col :span="4">
-                    <img src="https://i.ibb.co/vBNK9GS/u-3034470754-3763725547-fm-26-gp-0.jpg" alt="u-3034470754-3763725547-fm-26-gp-0" border="0" class="item-image"/>
-                </el-col>
-                <el-col :span="16">
+                <el-col :span="14">
                     <div class = "item-description">
                         <div class = "title" style = "margin-top: 0px;">
-                            <span style = "font-size:150%;">{{name}}</span>
+                            <span style = "font-size:100%;">{{name}}</span>
                         </div>
-                        <div class = "price" style = "font-size: 200%;">
+                        <div class = "price" style = "font-size: 250%; color:#FF0036">
                             <el-row>
-                                <span style="vertical-align:middle;"> $ {{price.toFixed(2)}}&nbsp;&nbsp;</span>
-                                <el-tag type="success" effect="dark">-30%</el-tag>
+                                <span style="vertical-align:middle;"> <span style="font-size: 20px">￥</span>{{price.toFixed(2)}}<span style="font-size: 10px"> / 本</span>&nbsp;&nbsp;</span>
                             </el-row>
                         </div>
+                        <el-row style="text-align:left; margin-left: 11px; margin-bottom: 0px;">
+                            <el-button size = "small" type="primary" v-if="!showDetail" @click="showDetailMethod();getTableData">详细信息</el-button>
+                            <el-button size = "small" type="primary" v-if="showDetail" @click="hideDetailMethod()">隐藏信息</el-button>
+                            <el-button size = "small" type="danger"  @click="dialogFormVisible=true">立即购买</el-button>
+                        </el-row>
                     </div>
                 </el-col>
-                <el-col :span="4" class="detail-button" style="padding-top: 2.5%; padding-bottom:2.5%;">
-                    <el-row>
-                        <el-button type="primary" v-if="!showDetail" @click="showDetail=true;getTableData">详细信息</el-button>
-                        <el-button type="primary" v-if="showDetail" @click="showDetail=false">隐藏信息</el-button>
-                    </el-row>
-                    <el-row style="margin-top: 10px;">
-                        <el-button type="danger"  @click="dialogFormVisible=true">立即购买</el-button>
-                    </el-row>
+                <el-col :span="6" class="detail-button" style="text-align:right; padding-bottom:0px;">
+                    <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="item-image">
                 </el-col>
             </el-row>
             <div class = "detail-info" v-if="showDetail" style="padding: 20px;">
@@ -39,7 +34,7 @@
             </div>
         </el-card>
         <el-dialog title="确认订单" :visible.sync="dialogFormVisible" style="text-align:left; padding: 10px; width: 100%; margin: 0px;">
-            <el-form :model="orderInfo">
+            <el-form :model="orderInfo" style="padding-left:0px;">
                 <el-form-item label="数量" :label-width="formLabelWidth">
                     <el-input-number size="small" v-model="orderInfo.count" :min="1" :max="detail[0].stock" label="购买数量"></el-input-number>
                 </el-form-item>
@@ -48,7 +43,7 @@
                     <el-radio v-model="orderInfo.mode" label="2">送货上门</el-radio>
                 </el-form-item>
                 <el-form-item label="账户" :label-width="formLabelWidth">
-                    <el-select placeholder="请选择付款账户" v-model="orderInfo.payAccount">
+                    <el-select placeholder="选择付款账户" v-model="orderInfo.payAccount">
                         <el-option v-for="item in this.$store.state.account"
                         :key="item" :label="item" :value="item"></el-option>
                     </el-select>
@@ -91,7 +86,17 @@ export default {
                 payAccount:"",
                 payPassword:""
             },
-            formLabelWidth: '60px'
+            cardStyle:{
+                height: '163px'
+            },
+            formLabelWidth: '60px',
+            corre:{
+                'publisher_id':'发布者ID',
+                'publisher_name':'发布者昵称',
+                'description':'商品描述',
+                'stock':'余量',
+                'clazz':'分类'
+            }
         }
     },
     computed:{
@@ -110,7 +115,8 @@ export default {
                        keys[i] == 'description'||
                        keys[i] == 'stock'||
                        keys[i] == 'clazz')
-                    data.push({key: keys[i], value: values[i]})
+                    data.push({key: this.corre[keys[i]], value: values[i]})
+                       
                 }
             }
             return data
@@ -131,35 +137,31 @@ export default {
                 if(response.data == "SUCCESS") alert("支付成功")
                 else alert("支付失败：" + response.data)
             })
+        },
+        showDetailMethod:function(){
+            this.showDetail = true
+            this.cardStyle.height = 'auto'
+        },
+        hideDetailMethod:function(){
+            this.showDetail = false
+            this.cardStyle.height = '163px'
         }
     }
 }
 </script>
 
 <style>
-.item-image{
-    width: 50%;
-    height: 50%;
-    margin: 10%;
-    object-fit: cover;
-    
-}
+
 .item-description{
-    margin-top:1.5%;
-    text-align: left;
     line-height: 330%;
-}
-.el-tag{
-    font-size:100%;
-    text-align:center;
-    height: 40%;
-    vertical-align:middle;
-    line-height:120%;
-}
-.detail-button{
-    padding-top:4%;
 }
 .el-dialog{
     width: 300px;
+}
+.item-card .item-image{
+    width: 164px;
+    height: 164px;
+
+    
 }
 </style>

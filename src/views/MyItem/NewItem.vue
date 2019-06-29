@@ -1,13 +1,13 @@
 <template>
     <div class = "new-item">
-        <h1>发布新商品</h1>
+        <h1 style="text-align:center;">发布新商品</h1>
         <div class="new-item-form">
             <el-form title="请填写商品详细信息" :model="newItemForm" label-width="80px">
                 <el-form-item label="商品名称">
                     <el-input v-model="newItemForm.itemName" auto-complete="off" placeholder="商品名称"></el-input>
                 </el-form-item>
                 <el-form-item label="商品分类">
-                    <el-select v-model="newItemForm.clazz" placeholder="分类">
+                    <el-select v-model="newItemForm.clazz" placeholder="分类" style="width:255px;">
                         <el-option v-for="item in clazzes" :key="item.value" :label="item.label"
                         :value="item.value"></el-option>
                     </el-select>
@@ -28,7 +28,8 @@
                     <el-input v-model="newItemForm.img" auto-complete="off" placeholder="图像链接（需先上传）"></el-input>
                 </el-form-item>
                 <el-form-item label="初始库存">
-                    <el-input-number v-model="newItemForm.stock" :min="1" :max="100" label="初始库存"></el-input-number>
+                    <el-input-number style="width:255px;" 
+                    v-model="newItemForm.stock" :min="1" :max="100" label="初始库存"></el-input-number>
                 </el-form-item>
                 <el-form-item label="初始单价">
                     <el-row>
@@ -47,8 +48,7 @@
                     <el-input v-model="newItemForm.link" auto-complete="off" placeholder="商品外链（如果有）"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="danger" @click="onSubmit()">确认无误，立即发布！</el-button>
-                    <el-button>取消</el-button>
+                    <el-button type="danger" @click="onSubmit()" style="width: 255px;">立即发布</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -127,5 +127,7 @@ export default {
 <style>
 .new-item{
     text-align: left;
+    width: 335px;
+    margin:auto;
 }
 </style>

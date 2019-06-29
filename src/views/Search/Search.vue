@@ -4,9 +4,10 @@
         <el-form :model="keyWordForm" class="search-form">
             <el-form-item>
                 <el-input placeholder="请输入内容" v-model="keyWordForm.keyword" class="input-with-select">
-                    <el-select v-model="keyWordForm.select" slot="prepend" placeholder="类型">
+                    <el-select v-model="keyWordForm.select">
                         <el-option label="书籍" value="1"></el-option>
                         <el-option label="用户" value="2"></el-option>
+                        <el-option label="求购" value="3"></el-option>
                     </el-select>
                     <el-button slot="append" icon="el-icon-search" @click="onSubmit()"></el-button>
                 </el-input>
@@ -19,7 +20,7 @@
         </el-form>
         <el-divider></el-divider>
         <h2 style="text-align: center" v-if="searchFinish">搜索完毕，共{{result.length}}条结果</h2>
-        <el-table :data="result" v-if="searchFinish" style="width: 100%;">
+        <!-- <el-table :data="result" v-if="searchFinish" style="width: 100%;">
             <el-table-column prop="name" label="书名">
             </el-table-column>
             <el-table-column prop="publisher_id" label="发布者">
@@ -30,7 +31,7 @@
             </el-table-column>
             <el-table-column prop="stock" label="库存">
             </el-table-column>
-        </el-table>
+        </el-table> -->
         <el-divider v-if="searchFinish"></el-divider>
         <item-short v-for="item in result" :key="item.id" :name="item.name" :clazz="item.clazz" :price="item.price" :detail="new Array(item)"></item-short>
     </div>
@@ -81,6 +82,8 @@ export default {
 <style>
 .search{
     text-align: center;
+    width: 335px;
+    margin: auto;
 }
 .el-select {
     width: 140px;

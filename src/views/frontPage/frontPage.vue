@@ -8,8 +8,9 @@
             </el-carousel-item>
         </el-carousel>
         <br/>
-        <item-short v-for="item in result" :key="item.id" :name="item.name" :clazz="item.clazz" :price="item.price" :detail="new Array(item)"></item-short>
-
+        <div class="front-class">
+            <item-short v-for="item in result" :key="item.id" :name="item.name" :clazz="item.clazz" :price="item.price" :detail="new Array(item)"></item-short>
+        </div>
     </div>
 </template>
 
@@ -76,5 +77,9 @@ h2{
   
   .el-carousel__item:nth-child(2n+1) {
     background-color: #d3dce6;
+  }
+  .front-class{
+      width: 335px;
+      margin:auto;
   }
 </style>
