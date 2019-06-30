@@ -130,4 +130,7 @@ export default {
     width: 335px;
     margin:auto;
 }
+.el-input{
+    width: 100%;
+}
 </style>

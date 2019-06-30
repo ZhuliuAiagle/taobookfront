@@ -8,6 +8,7 @@ export default new Vuex.Store({
     server: "http://localhost:9999",
     user:"nm00001",
     account:["ac00001"],
+    index:"",
     clazzes:[{
       value: "艺术",
       label: "艺术"

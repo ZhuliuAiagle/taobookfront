@@ -24,7 +24,12 @@ export default new Router({
         {path:"frontpage", component: () => import('./views/frontPage/frontPage.vue')},
         {path:"newitem", component: () => import('./views/MyItem/NewItem.vue')},
         {path:"search", component: () => import('./views/Search/Search.vue')},
-        {path:"request", component: () => import('./views/request/Request.vue')}
+        {path:"request", component: () => import('./views/request/Request.vue')},
+        {path:"chat", component: () => import('./views/chat/Chat.vue'),
+          children:[
+            {path:'/area/:id', component: () => import('./components/chat/ChatArea.vue')}
+          ]
+        }
       ]
     }
   ]
