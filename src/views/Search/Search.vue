@@ -45,6 +45,12 @@ export default {
     components:{
         itemShort
     },
+    mounted(){
+        if(this.$store.state.user == "<undefined>"){
+            this.$message("未登录，请先登录");
+            this.$router.push('/login')
+        }
+    },
     data(){
         return {
             keyWordForm:{
@@ -71,7 +77,7 @@ export default {
                     that.searchFinish = true;
                     that.result = response.data.data;
                 }else{
-                    alert("查询出错，请稍后再试")
+                    that.$message("查询出错，请稍后再试")
                 }
             })
         }

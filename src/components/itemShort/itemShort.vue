@@ -132,10 +132,11 @@ export default {
                 pay_type: parseInt(this.orderInfo.mode),
                 type: parseInt(this.orderInfo.mode)
             }
+            const that = this
             console.log(finalOrderInfo)
             axios.post(this.$store.state.server + '/order/submit', finalOrderInfo).then(function(response){
-                if(response.data == "SUCCESS") alert("支付成功")
-                else alert("支付失败：" + response.data)
+                if(response.data == "SUCCESS")that.$message("支付成功")
+                else that.$message("支付失败：" + response.data)
             })
         },
         showDetailMethod:function(){

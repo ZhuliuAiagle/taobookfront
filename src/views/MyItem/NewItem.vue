@@ -59,6 +59,12 @@
 <script>
 export default {
     name:"NewItem",
+    mounted(){
+        if(this.$store.state.user == "<undefined>"){
+        this.$message("未登录，请先登录");
+        this.$router.push('/login')
+      }
+    },
     computed:{
         actualPrice:function(){
             return this.newItemForm.price.int + "." + this.newItemForm.price.dec
@@ -95,7 +101,11 @@ export default {
             var url = this.$store.state.server
             var that = this
             axios.post(url + '/item/add',a).then(function(response){
-                alert(response.data)
+                if(reponse.data == "SUCCESS"){
+                    that.$message("发布成功");
+                }else{
+                    that.$message("发布失败，请稍后再试");
+                }
             })
         }
     },

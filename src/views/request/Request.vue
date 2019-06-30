@@ -25,13 +25,38 @@
                     <el-button style="margin-top: 10px;" @click="formVisible=false">收起</el-button>
                 </div>
             </div>
+            <div class="info-stream" style="text-align: left;">
+                <info-item v-for="item in dt" :key="item.id" :requestInfo="item"></info-item>
+            </div>
         </div>
     </div>
 </template>
 <script>
+import InfoItem from "../../components/request/InfoItem"
 
 export default {
     name: 'request',
+    components:{
+        InfoItem
+    },
+    mounted(){
+        if(this.$store.state.user == "<undefined>"){
+            this.$message("未登录，请先登录");
+            this.$router.push('/login')
+        }
+        const that = this;
+        axios.post(this.$store.state.server + "/request/timeline").then(
+            function(response){
+                if(response.data.status == "success"){
+                    console.log(response.data.data);
+                    that.dt = response.data.data
+                }
+                else{
+                    that.$message("获取失败")
+                }
+            }
+        )
+    },
     data(){
         return {
             clazzes:this.$store.state.clazzes,
@@ -44,7 +69,10 @@ export default {
                 expDate:null,
                 img: ""
             },
-            formVisible: false
+            formVisible: false,
+            circleUrl: "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png",
+            squareUrl: "https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png",
+            dt:[]
         }
     },
     methods:{
@@ -60,11 +88,12 @@ export default {
                 img: this.reqForm.img
             }
             console.log(a)
+            const that = this
             axios.post(this.$store.state.server + "/request/add",a).then(function(response){
                 if(response.data = "SUCCESS"){
-                    alert("发布成功")
+                    that.$message("发布成功")
                 }else{
-                    alert("发布失败："+response.data)
+                    that.$message("发布失败："+response.data)
                 }
             })
         },

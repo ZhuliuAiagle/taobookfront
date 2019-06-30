@@ -40,7 +40,7 @@ export default {
                 that.searchFinish = true;
                 that.result = response.data.data;
             }else{
-                alert("查询出错，请稍后再试")
+                that.$message("查询出错，请稍后再试")
             }
         })
     },

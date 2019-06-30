@@ -35,10 +35,10 @@
                 </div>
                 <div class = "login-input">
                     <el-row>
-                        <el-input placeholder="请选择一个账号(6位以上字母数字)" v-model="usr_reg"></el-input>
+                        <el-input placeholder="id(6-12位字母数字)" v-model="usr_reg" minlength="6"  maxlength="12" show-word-limit></el-input>
                     </el-row>
                     <el-row>
-                        <el-input placeholder="请输入密码(6位以上)" show-password v-model="pas_reg"></el-input>
+                        <el-input placeholder="请输入密码(6位以上)" show-password v-model="pas_reg" minlength="6" show-word-limit></el-input>
                     </el-row>
                     <el-row>
                         <el-input placeholder="请确认密码" show-password v-model="pas_confirm"></el-input>
@@ -99,16 +99,18 @@ export default {
     methods:{
         login:function(){
             var url = this.$store.state.server
-            var that = this
+            var that = this;
+            if(this.username.length == 0 || this.password.length == 0) {this.$message("用户名和密码不能为空"); return -1;}
             axios.post(url + "/login", {
                 username: that.username,
                 password: that.password
             }).then(function(response){
                 if(response.data == "SUCCESS"){
-                    alert("登录成功")
+                    that.$message("登录成功")
+                    that.$store.state.user = that.username
                     that.$router.push({path:"/index"});
                 }else{
-                    alert("用户名或密码错误！");
+                    that.$message("用户名或密码错误！");
                 }
             })
         },
@@ -121,8 +123,14 @@ export default {
             return [year, month, day].join('-');
         },
         register:function(){
-            var url = this.$store.state.server
             var that = this
+            if(that.usr_reg.length == 0)  {this.$message("用户名不能为空"); return -1}
+            if(that.birthday == null) {this.$message("生日不能为空"); return -1}
+            if(that.sex.length == 0) {this.$message("请选择性别"); return -1}
+            if(that.phone.length == 0) {this.$message("请输入电话或手机号"); return -1}
+            if(that.pas_reg != that.pas_confirm) {this.$message("两次密码不一致"); return -1}
+            if(that.pas_reg.length <= 6 ) {this.$message("密码强度不够"); return -1}
+            var url = this.$store.state.server
             var sexy = 0
             console.log(that.birthday)
             console.log(typeof(that.birthday))
@@ -131,7 +139,7 @@ export default {
             if(that.sex == "male") sexy = 1
             else if(that.sex == "female") sexy = 0
             else sexy = 0
-            if(that.pas_reg != that.pas_confirm) alert("两次密码不一致")
+            if(that.email.indexOf("@") == -1) this.$message("邮箱格式不正确")
             else{
                 axios.post(url + "/register",{
                     username: that.usr_reg,
@@ -144,10 +152,10 @@ export default {
                     email: that.email
                 }).then(function(response){
                     if(response.data == "SUCCESS"){
-                        alert("注册成功，已经为您进行自动登录")
+                        that.$message("注册成功，已经为您进行自动登录")
                         that.$router.push({path:"/index"})
                     }else{
-                        alert("注册失败")
+                        that.$message("注册失败: 表单中含有非法字符")
                     }
                 })
             }
@@ -159,7 +167,7 @@ export default {
 
 
 <style>
-.register-block{
+.login .register-block{
     background-color: #DCDFE6;
     margin-top:40px;
     padding-top: 50px;
@@ -169,7 +177,7 @@ export default {
     margin-right: auto;
     align-self: center;
 }
-.login-block{
+.login .login-block{
     background-color: #DCDFE6;
     margin-top:100px;
     padding-top: 50px;
@@ -179,27 +187,27 @@ export default {
     margin-right: auto;
     align-self: center;
 }
-.login-input{
+.login .login-input{
     text-align: center;
 }
-.el-input{
+.login .el-input{
     width: 260px;
 }
-.el-header{
+.login .el-header{
     background-color:transparent;
     color: #fff;
     text-align: left;
     line-height: 60px;
     font-size: 20px;
 }
-.el-main {
+.login .el-main {
     color: #333;
     text-align: center;
     line-height: 60px;
     height: 100%;
     background-color:transparent;
 }
-.el-footer {
+.login .el-footer {
     background-color: #000;
     color: #fff;
     text-align: left;

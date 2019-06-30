@@ -71,6 +71,10 @@ export default {
     },
     mounted(){
       // 获取浏览器可视区域高度
+      if(this.$store.state.user == "<undefined>"){
+        this.$message("未登录，请先登录");
+        this.$router.push('/login')
+      }
       const that = this
       window.onresize = () => {
         console.log("fff")

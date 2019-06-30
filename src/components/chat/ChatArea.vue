@@ -61,7 +61,7 @@ export default {
                 content:this.textarea
             }
             const that = this;
-            if(this.textarea.length <= 0) alert("内容不能为空")
+            if(this.textarea.length <= 0) this.$message("内容不能为空")
             
             else{
                 axios.post(this.$store.state.server + '/message/send',a).then(
@@ -70,7 +70,7 @@ export default {
                             that.textarea = ""
                             that.$emit('onSend')
                         }else{
-                            alert("发送失败：" + response.data);
+                            that.$message("发送失败：" + response.data);
                         }
                     }
                 )

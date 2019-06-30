@@ -26,11 +26,11 @@ export default {
             user_id: that.$store.state.user
         }).then(function(response){
             if(response.data.status == "success"){
-                // alert("加载消息列表成功")
+                that.$message("加载消息列表成功")
                 console.log(response.data)
                 that.records =  response.data.data
             }else{
-                alert("获取失败")
+                that.$message("获取失败")
             }
         })
     },
@@ -57,11 +57,10 @@ export default {
                 user_id: that.$store.state.user
             }).then(function(response){
                 if(response.data.status == "success"){
-                    // alert("加载消息列表成功")
                     console.log(response.data)
                     that.records =  response.data.data
                 }else{
-                    alert("刷新失败")
+                    that.$message("刷新失败")
                 }
             })
         }
