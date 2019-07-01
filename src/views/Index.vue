@@ -18,7 +18,7 @@
                         <el-menu-item index="6"><i class="el-icon-search"></i><span>高级搜索</span></el-menu-item>
                         <el-menu-item index="7"><i class="el-icon-question"></i><span>求购</span></el-menu-item>
                         <el-menu-item index="8"><i class="el-icon-chat-line-square"></i><span>消息</span></el-menu-item>
-                        <el-menu-item index="9"><i class="el-icon-platform-eleme"></i><span>个人中心</span></el-menu-item>
+                        
                     </el-menu>
                 </el-aside>
                 <el-aside width="auto" ref="asideLine" :style="asideStyle" class="small-aside" v-if="!asideIsFolded">
@@ -28,7 +28,7 @@
                         <el-menu-item index="6"><i class="el-icon-search"></i><span>高级搜索</span></el-menu-item>
                         <el-menu-item index="7"><i class="el-icon-question"></i><span>求购</span></el-menu-item>
                         <el-menu-item index="8"><i class="el-icon-chat-line-square"></i><span>消息</span></el-menu-item>
-                        <el-menu-item index="9"><i class="el-icon-platform-eleme"></i><span>个人中心</span></el-menu-item>
+                        
                     </el-menu>
                 </el-aside>
                 <el-main ref="mainLine" :style="mainStyle">

@@ -9,7 +9,7 @@
         </el-carousel>
         <br/>
         <div class="front-class">
-            <item-short v-for="item in result" :key="item.id" :name="item.name" :clazz="item.clazz" :price="item.price" :detail="new Array(item)"></item-short>
+            <item-short v-for="item in result" :key="item.id" :name="item.name" :clazz="item.clazz" :price="item.price" :detail="new Array(item)" :img="item.img"></item-short>
         </div>
     </div>
 </template>
@@ -39,6 +39,7 @@ export default {
             if(response.data.status == "success") {
                 that.searchFinish = true;
                 that.result = response.data.data;
+                console.log(that.result)
             }else{
                 that.$message("查询出错，请稍后再试")
             }

@@ -101,7 +101,7 @@ export default {
             var url = this.$store.state.server
             var that = this
             axios.post(url + '/item/add',a).then(function(response){
-                if(reponse.data == "SUCCESS"){
+                if(response.data == "SUCCESS"){
                     that.$message("发布成功");
                 }else{
                     that.$message("发布失败，请稍后再试");

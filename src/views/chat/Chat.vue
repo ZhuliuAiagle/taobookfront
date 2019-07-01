@@ -2,7 +2,7 @@
 <div class="chat">
     <el-container style="height: 100%; border: 1px solid #eee">
          <el-aside width="300px">
-             <chat-menu :records="records"></chat-menu>
+             <chat-menu :records="records" @onNewSend="refresh()"></chat-menu>
          </el-aside>
          <chat-area :id="$store.state.index" :records="records[getIdById].records" @onSend="refresh();"></chat-area>
     </el-container>
@@ -22,13 +22,16 @@ export default {
     },
     mounted(){
         const that = this
+        var int
         axios.post(that.$store.state.server + "/message/msglist",{
             user_id: that.$store.state.user
         }).then(function(response){
             if(response.data.status == "success"){
-                that.$message("加载消息列表成功")
                 console.log(response.data)
                 that.records =  response.data.data
+                /*setInterval(() => {
+                    that.refresh()
+                },20000)*/
             }else{
                 that.$message("获取失败")
             }

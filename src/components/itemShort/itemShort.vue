@@ -20,7 +20,7 @@
                     </div>
                 </el-col>
                 <el-col :span="6" class="detail-button" style="text-align:right; padding-bottom:0px;">
-                    <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="item-image">
+                    <img :src="img" class="item-image">
                 </el-col>
             </el-row>
             <div class = "detail-info" v-if="showDetail" style="padding: 20px;">
@@ -74,7 +74,8 @@ export default {
         clazz: String,
         id: String,
         price: Number,
-        detail: Array
+        detail: Array,
+        img: String
     },
     data(){
         return {

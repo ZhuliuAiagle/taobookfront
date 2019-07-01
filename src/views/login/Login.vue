@@ -57,7 +57,7 @@
                         <el-input placeholder="手机（必填）" v-model="phone"></el-input>
                     </el-row>
                     <el-row>
-                        <el-input placeholder="邮箱（必填）" v-model="email"></el-input>
+                        <el-input 　type="email" placeholder="邮箱（必填）" v-model="email"></el-input>
                     </el-row>
                     <el-row>
                         <el-date-picker placeholder="生日" v-model="birthday" style="width:260px;"></el-date-picker>
@@ -93,7 +93,8 @@ export default {
             sex:"",
             birthday:null,
             phone:"",
-            email:""
+            email:"",
+            illegalChar:""
         }
     },
     methods:{
@@ -123,11 +124,16 @@ export default {
             return [year, month, day].join('-');
         },
         register:function(){
+            var reg = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im;  
+            var regMail = /[`~!#$%^&*()+<>?:"{},\/;'[\]]/im;  
             var that = this
             if(that.usr_reg.length == 0)  {this.$message("用户名不能为空"); return -1}
+            if(reg.test(that.usr_reg) == true) {this.$message("用户名包含非法字符"); return -1}
             if(that.birthday == null) {this.$message("生日不能为空"); return -1}
             if(that.sex.length == 0) {this.$message("请选择性别"); return -1}
             if(that.phone.length == 0) {this.$message("请输入电话或手机号"); return -1}
+            if(reg.test(that.phone) == true) {this.$message("手机号包含非法字符"); return -1}
+            if(regMail.test(that.email) == true) {this.$message("邮箱包含非法字符"); return -1}
             if(that.pas_reg != that.pas_confirm) {this.$message("两次密码不一致"); return -1}
             if(that.pas_reg.length <= 6 ) {this.$message("密码强度不够"); return -1}
             var url = this.$store.state.server
@@ -155,7 +161,7 @@ export default {
                         that.$message("注册成功，已经为您进行自动登录")
                         that.$router.push({path:"/index"})
                     }else{
-                        that.$message("注册失败: 表单中含有非法字符")
+                        that.$message("注册失败: 用户名已存在")
                     }
                 })
             }

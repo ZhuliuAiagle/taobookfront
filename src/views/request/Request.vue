@@ -13,12 +13,12 @@
                     <el-option v-for="item in clazzes" :key="item.value" :label="item.label"
                     :value="item.value"></el-option>
                 </el-select>
-                <el-row class="input-group">
+                <el-row class="input-group" style="display: none;">
                     <el-input class="price-input" v-model="reqForm.priceUp" type="number" placeholder="预期高价"></el-input>
                     <el-input class="price-input" v-model="reqForm.priceDown" type="number" placeholder="预期低价"></el-input>
                 </el-row>
-                <el-date-picker placeholder="期望配送日期" v-model="reqForm.expDate" style="width: 335px;"></el-date-picker>
-                <el-input v-model="reqForm.img" type="text" placeholder="图片链接">
+                <el-date-picker placeholder="期望配送日期" v-model="reqForm.expDate" style="display: none;"></el-date-picker>
+                <el-input v-model="reqForm.img" type="text" placeholder="图片链接" style="display: none;">
                 </el-input>
                 <div class = "pub-button">
                     <el-button type="primary" style="margin-top: 10px;" @click="onSubmit()">发布</el-button>
@@ -50,6 +50,7 @@ export default {
                 if(response.data.status == "success"){
                     console.log(response.data.data);
                     that.dt = response.data.data
+                    that.$router.push("/index/request")
                 }
                 else{
                     that.$message("获取失败")
@@ -66,7 +67,7 @@ export default {
                 clazz:"",
                 priceUp:0,
                 priceDown:0,
-                expDate:null,
+                expDate: new Date(),
                 img: ""
             },
             formVisible: false,
@@ -90,8 +91,13 @@ export default {
             console.log(a)
             const that = this
             axios.post(this.$store.state.server + "/request/add",a).then(function(response){
-                if(response.data = "SUCCESS"){
+                if(response.data == "SUCCESS"){
                     that.$message("发布成功")
+                    that.reqForm.reqText = ""
+                    that.reqForm.reqDes = ""
+                    that.reqForm.clazz = ""
+                    that.formVisible = false
+                    that.update();
                 }else{
                     that.$message("发布失败："+response.data)
                 }
@@ -104,6 +110,21 @@ export default {
             if (month.length < 2) month = '0' + month;
             if (day.length < 2) day = '0' + day;
             return [year, month, day].join('-');
+        },
+        update: function(){
+            const that = this;
+            axios.post(this.$store.state.server + "/request/timeline").then(
+                function(response){
+                    if(response.data.status == "success"){
+                        console.log(response.data.data);
+                        that.dt = response.data.data
+                        that.$router.push("/index/request")
+                    }
+                    else{
+                        that.$message("获取新列表失败")
+                    }
+                }
+            )
         }
     }
 }
